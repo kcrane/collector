@@ -33,7 +33,7 @@
 [submodule "falcosecurity-libs"]
 	path = falcosecurity-libs
 	url = https://github.com/kcrane/falcosecurity-libs
-	branch = rebase-2023-03-23
+	branch = kcrane/ebpf
 [submodule "collector/proto/third_party/gogoproto"]
 	path = collector/proto/third_party/gogoproto
 	url = https://github.com/gogo/protobuf
