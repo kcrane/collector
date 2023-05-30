@@ -11,10 +11,12 @@ all: build-container
 
 .PHONY: build-container
 build-container:
-	docker build $(BUILD_CONTAINER_CACHE_IMAGES:%=--cache-from=%) -t $(BUILD_CONTAINER_TAG) ./build
+	#docker build $(BUILD_CONTAINER_CACHE_IMAGES:%=--cache-from=%) -t $(BUILD_CONTAINER_TAG) ./build
+	docker build --network=host $(BUILD_CONTAINER_CACHE_IMAGES:%=--cache-from=%) -t $(BUILD_CONTAINER_TAG)-ubi8 ./build
 
 build-container-%: build/%.Dockerfile
-	docker build $(BUILD_CONTAINER_CACHE_IMAGES:%=--cache-from=%-$@) -t $(BUILD_CONTAINER_TAG)-$* ./build -f $<
+	#docker build $(BUILD_CONTAINER_CACHE_IMAGES:%=--cache-from=%-$@) -t $(BUILD_CONTAINER_TAG)-$* ./build -f $<
+	docker build --network=host $(BUILD_CONTAINER_CACHE_IMAGES:%=--cache-from=%-$@) -t $(BUILD_CONTAINER_TAG)-$* ./build -f $<
 
 .PHONY: all-build-containers
 all-build-containers: build-container $(CUSTOM_FLAVORS:%=build-container-%)

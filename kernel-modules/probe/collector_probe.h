@@ -234,7 +234,7 @@ static __always_inline void syscall_to_enter_args(long id, struct sys_enter_args
     }
     case __NR_setgid: {
       struct sys_enter_setgid_args* setgid_args = (struct sys_enter_setgid_args*)ctx;
-      bpf_printk_krc( "KRC setgid  %ld",(unsigned long)setgid_args->gid);
+      // bpf_printk_krc( "KRC setgid  %ld",(unsigned long)setgid_args->gid);
       stack_ctx->args[0] = (unsigned long)setgid_args->gid;
       break;
     }
@@ -243,6 +243,7 @@ static __always_inline void syscall_to_enter_args(long id, struct sys_enter_args
       stack_ctx->args[0] = (unsigned long)setresgid_args->rgid;
       stack_ctx->args[1] = (unsigned long)setresgid_args->egid;
       stack_ctx->args[2] = (unsigned long)setresgid_args->sgid;
+      bpf_printk_krc( "KRC setresgid  %ld %ld %ld", (unsigned long)setresgid_args->rgid, (unsigned long)setresgid_args->egid, (unsigned long)setresgid_args->sgid  );
       break;
     }
     case __NR_setresuid: {

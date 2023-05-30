@@ -1,4 +1,7 @@
-FROM quay.io/iovisor/bpftrace:latest
+FROM quay.io/centos/centos:stream9
+
+RUN dnf install -y bpftrace xz
+# RUN bpftrace -V
 
 COPY /scripts /scripts
 COPY /tools /tools

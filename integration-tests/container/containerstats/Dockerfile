@@ -1,4 +1,4 @@
-FROM docker:dind
+FROM s390x/docker:dind
 
 ADD stats.sh /
 

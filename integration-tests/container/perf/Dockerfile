@@ -1,17 +1,8 @@
-FROM alpine:3.12 AS base
+FROM quay.io/centos/centos:stream9 AS base
 
-RUN apk add --update \
-    bash \
-    bc \
-    build-base \
-    bison \
-    flex \
-    curl \
-    elfutils-dev \
-    linux-headers \
-    make \
-    openssl-dev \
-    diffutils
+RUN yum groupinstall -y 'Development Tools'
+RUN dnf install -y bash bc bison flex elfutils-devel make openssl-devel diffutils kernel-devel
+# RUN dnf install -y curl  # conflicts with curl-minimal which is already installed
 
 COPY tools /tools
 COPY scripts /scripts
@@ -32,7 +23,7 @@ CMD ["/scripts/init.sh"]
 #
 FROM base AS bcc
 
-RUN apk add --update bcc-tools && \
+RUN dnf install -y bcc-tools && \
     ln -s /usr/bin/python3 /usr/bin/python
 
 ENV PATH=/bin:/usr/bin:/usr/share/bcc/tools:/tools
@@ -43,6 +34,6 @@ ENTRYPOINT ["/scripts/run-tool.sh"]
 #
 FROM base AS perf
 
-RUN apk add --update perf
+RUN dnf install -y perf
 
 ENTRYPOINT ["/scripts/run-tool.sh", "perf"]

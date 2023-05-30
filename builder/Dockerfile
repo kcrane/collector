@@ -1,4 +1,5 @@
-FROM quay.io/centos/centos:stream8
+FROM registry.access.redhat.com/ubi8
+# FROM quay.io/centos/centos:stream9   # gcc v11 not supported until Abseil bumped to 20200923.3
 
 ARG NPROCS=6
 ENV NPROCS=$NPROCS
@@ -7,8 +8,11 @@ ARG BUILD_DIR=/install-tmp
 
 USER root
 
+COPY pulp.repo /etc/yum.repos.d/pulp.repo
+RUN mv /etc/yum.repos.d/ubi.repo /etc/yum.repos.d/ubi.repo.disabled
+
 RUN dnf -y update \
-    && dnf -y install --nobest \
+    && dnf -y install \
         autoconf \
         automake \
         binutils-devel \

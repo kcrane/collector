@@ -32,6 +32,7 @@ builder:
 ifdef BUILD_BUILDER_IMAGE
 	docker build \
 		--build-arg NPROCS=$(NPROCS) \
+		 --network=host \
 		--cache-from quay.io/stackrox-io/collector-builder:cache \
 		--cache-from quay.io/stackrox-io/collector-builder:$(COLLECTOR_BUILDER_TAG) \
 		-t quay.io/stackrox-io/collector-builder:$(COLLECTOR_BUILDER_TAG) \
